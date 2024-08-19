@@ -1,8 +1,7 @@
-# ic-registegic
+# CargoControl
 
 #  Client
 El cliente utiliza las siguientes librerias:
-* Firebase - v9.18.0
     * Para la autenticacion por medio de correo electronico y contraseña
     * El envio de correos con las credenciales de la persona registrada
 *Reac-Email - v1.9.1
