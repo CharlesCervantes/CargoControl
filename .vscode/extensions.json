@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "dbaeumer.vscode-eslint",
+        "gruntfuggly.todo-tree",
+        "antiantisepticeye.vscode-color-picker",
+        "mattpocock.ts-error-translator"
+    ]
+}

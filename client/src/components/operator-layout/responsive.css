@@ -1,0 +1,156 @@
+@media only screen and (max-width: 800px) {
+    .respAdd {
+        width: 100px;
+    }
+
+    .actions {
+        align-items: flex-end;
+        width: 100px;
+        align-items: center;
+        padding-right: 0 !important;
+    }
+
+    .flex {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .save {
+        width: 70%;
+        border-radius: 999999px !important;
+        border: none !important;
+        font-size: 3.5rem !important;
+    }
+
+    .span {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .contentResp {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+        padding-left: 0 !important;
+        padding-right: 1rem !important;
+    }
+
+    .modalResp {
+        max-height: 380px !important;
+    }
+
+    .formResp {
+        /* display: flex; */
+        max-height: 220px !important;
+        overflow-y: auto;
+    }
+
+    .visitorContainer {
+        width: 100% !important;
+    }
+
+}
+
+@media only screen and (max-width: 1000px) {
+
+    .displayNone {
+        display: none;
+    }
+
+}
+
+@media only screen and (min-width: 801px) {
+    .displayNoneDesk {
+        display: none;
+    }
+
+}
+
+/* Movil */
+
+@media only screen and (max-width: 500px) {
+
+    .header {
+        font-size: 0.9em !important;
+    }
+
+    .sidebarMov {
+        padding: 0 !important;
+    }
+
+    .contentMov {
+        flex-direction: column-reverse !important;
+    }
+
+    .actionsMov {
+        width: 100% !important;
+        padding: 0% !important;
+        flex-direction: row !important;
+    }
+
+    .addMov {
+        flex-direction: row !important;
+        justify-content: center;
+        padding: 0 !important;
+    }
+
+    .itemOpMov {
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+        margin-bottom: 0.5rem !important;
+        margin-top: 0.5rem !important;
+        font-size: 1.2em !important;
+    }
+
+    .buttonDiv {
+        font-size: 1.8rem !important;
+    }
+
+    /* Renders */
+
+    .fontSize {
+        font-size: 0.9rem !important;
+    }
+
+    .padding {
+        padding: 0 !important;
+    }
+
+    .login {
+        font-size: 0.8rem !important;
+        max-width: 300px !important;
+        padding: 10px !important;
+        border-radius: 5px !important;
+        height: 70vh !important;
+    }
+
+    .imageContainerLogin {
+        padding: 1rem 0rem 0rem 0rem !important;
+    }
+
+    .imageLogin {
+        width: 60% !important;
+    }
+}
+
+/* Clases de paginas QR*/
+
+.placeholder {
+    border: none !important;
+    color: black;
+    font-size: 15px;
+    background-color: transparent !important;
+    width: 100% !important;
+}
+
+.calendarPicker {
+    width: max-content;
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 10px;
+    padding: 0 10px;
+    line-height: 1;
+    border: 2px solid #cacaca;
+    height: 35px;
+}

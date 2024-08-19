@@ -1,0 +1,23 @@
+{
+    "extends": [
+        "@hannoeru"
+    ],
+    "rules": {
+        "no-console": [
+            "warn"
+        ],
+        "react/function-component-definition": [
+            "error",
+            {
+                "namedComponents": "function-declaration"
+            }
+        ],
+        "@typescript-eslint/array-type": [
+            "error",
+            {
+                "default": "generic",
+                "readonly": "generic"
+            }
+        ]
+    }
+}

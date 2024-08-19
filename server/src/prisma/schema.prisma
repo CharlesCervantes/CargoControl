@@ -1,0 +1,464 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id             String       @id @default(cuid())
+  created_at     DateTime?    @default(now())
+  updated_at     DateTime?    @updatedAt
+  name           String
+  address        String?
+  numberphone    String?
+  email          String?
+  organizationId String
+  license        String?
+  status         Boolean      @default(true)
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+  Driver         Driver[]
+  File           File[]
+  QrVisitor      QrVisitor[]
+  Trailer        Trailer[]
+  Vehicle        Vehicle[]
+  Visitor        Visitor[]
+}
+
+model Person {
+  id                     String       @id @default(cuid())
+  created_at             DateTime?    @default(now())
+  updated_at             DateTime?    @updatedAt
+  name                   String
+  lastname               String?
+  curp                   String?
+  security_social_number String?
+  numberphone            String?
+  email                  String?
+  identification_url     String?
+  picture_url            String?
+  isInside               Boolean?
+  organizationId         String
+  license                String?
+  identificationFiles    String?
+  Driver                 Driver?
+  File                   File[]
+  Organization           Organization @relation(fields: [organizationId], references: [id])
+  Visitor                Visitor[]
+}
+
+model Driver {
+  id             String          @id @default(cuid())
+  organizationId String
+  created_at     DateTime?       @default(now())
+  updated_at     DateTime?       @updatedAt
+  personId       String          @unique
+  companyId      String?
+  Company        Company?        @relation(fields: [companyId], references: [id])
+  Organization   Organization    @relation(fields: [organizationId], references: [id])
+  Person         Person          @relation(fields: [personId], references: [id])
+  EntranceUnits  EntranceUnits[]
+  ExitUnits      ExitUnits[]
+  Files          File[]
+  Incident       Incident[]      @relation("DriverToIncident")
+}
+
+model EntranceUnits {
+  id                  String        @id @default(cuid())
+  driverId            String?
+  vehicleId           String?
+  dateTime_updated_at DateTime      @updatedAt
+  dateTime            DateTime      @default(now())
+  organizationId      String
+  locationId          String
+  Checklist           Checklist[]
+  Driver              Driver?       @relation(fields: [driverId], references: [id])
+  Location            Location      @relation(fields: [locationId], references: [id])
+  Organization        Organization  @relation(fields: [organizationId], references: [id])
+  Vehicle             Vehicle?      @relation(fields: [vehicleId], references: [id])
+  ExitUnits           ExitUnits[]
+  TrailerLoad         TrailerLoad[]
+  Trailer             Trailer[]     @relation("EntranceToTrailer")
+}
+
+model Incident {
+  id                 String           @id @default(cuid())
+  datetime           DateTime         @default(now())
+  datetime_update_at DateTime         @updatedAt
+  report             String
+  subject            String
+  organizationId     String
+  locationId         String
+  File               File[]
+  Location           Location         @relation(fields: [locationId], references: [id])
+  Organization       Organization     @relation(fields: [organizationId], references: [id])
+  Driver             Driver[]         @relation("DriverToIncident")
+  Trailer            Trailer[]        @relation("IncidentToTrailer")
+  Vehicle            Vehicle[]        @relation("IncidentToVehicle")
+  VehicleVisitor     VehicleVisitor[] @relation("IncidentToVehicleVisitor")
+  Visitor            Visitor[]        @relation("IncidentToVisitor")
+}
+
+model Question {
+  id             String        @id @default(cuid())
+  name           String
+  type           String?
+  status         Boolean?      @default(true)
+  organizationId String
+  created_at     DateTime?     @default(now())
+  updated_at     DateTime?     @updatedAt
+  Organization   Organization  @relation(fields: [organizationId], references: [id])
+  Response       Response[]
+  TrailerType    TrailerType[] @relation("QuestionToTrailerType")
+  VehicleType    VehicleType[] @relation("QuestionToVehicleType")
+}
+
+model Trailer {
+  id             String          @id @default(cuid())
+  number         String
+  seal           String?
+  plate          String?
+  vin            String?
+  trailerTypeId  String?
+  isInside       Boolean
+  organizationId String
+  created_at     DateTime?       @default(now())
+  updated_at     DateTime?       @updatedAt
+  companyId      String?
+  locationId     String?
+  Checklist      Checklist[]
+  Company        Company?        @relation(fields: [companyId], references: [id])
+  Location       Location?       @relation(fields: [locationId], references: [id])
+  Organization   Organization    @relation(fields: [organizationId], references: [id])
+  TrailerType    TrailerType?    @relation(fields: [trailerTypeId], references: [id])
+  TrailerLoad    TrailerLoad[]
+  Entrance       EntranceUnits[] @relation("EntranceToTrailer")
+  ExitUnits      ExitUnits[]     @relation("ExitUnitsToTrailer")
+  Incident       Incident[]      @relation("IncidentToTrailer")
+}
+
+model TrailerType {
+  id             String       @id @default(cuid())
+  name           String
+  status         Boolean?     @default(true)
+  organizationId String
+  created_at     DateTime?    @default(now())
+  updated_at     DateTime?    @updatedAt
+  Trailer        Trailer[]
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+  Question       Question[]   @relation("QuestionToTrailerType")
+}
+
+model User {
+  id             String       @id @default(cuid())
+  username       String       @unique
+  password       String
+  name           String
+  email          String       @unique
+  roleId         String
+  numberphone    String?      @db.VarChar
+  lastname       String?      @db.VarChar
+  organizationId String
+  picture        String?
+  created_at     DateTime?    @default(now())
+  updated_at     DateTime?    @updatedAt
+  status         Boolean?
+  token          String?      @unique
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+  Picture        File?        @relation(fields: [picture], references: [id])
+  Role           Role         @relation(fields: [roleId], references: [id])
+  ExitUnits      ExitUnits[]
+}
+
+model Vehicle {
+  id             String          @id @default(cuid())
+  plate          String
+  unitNumber     String?
+  vehicleTypeId  String
+  vin            String?
+  isInside       Boolean?
+  organizationId String
+  created_at     DateTime?       @default(now())
+  updated_at     DateTime?       @updatedAt
+  companyId      String?
+  locationId     String?
+  seal           String?
+  Checklist      Checklist[]
+  EntranceUnits  EntranceUnits[]
+  ExitUnits      ExitUnits[]
+  Company        Company?        @relation(fields: [companyId], references: [id])
+  Location       Location?       @relation(fields: [locationId], references: [id])
+  Organization   Organization    @relation(fields: [organizationId], references: [id])
+  VehicleType    VehicleType     @relation(fields: [vehicleTypeId], references: [id])
+  Incident       Incident[]      @relation("IncidentToVehicle")
+}
+
+model VehicleVisitor {
+  id              String            @id @default(cuid())
+  plates          String
+  brand           String
+  model           String
+  color           String
+  isInside        Boolean?
+  organizationId  String
+  created_at      DateTime?         @default(now())
+  updated_at      DateTime?         @updatedAt
+  QrVisitor       QrVisitor[]
+  Organization    Organization      @relation(fields: [organizationId], references: [id])
+  VisitorEntrance VisitorEntrance[]
+  VisitorExit     VisitorExit[]
+  Incident        Incident[]        @relation("IncidentToVehicleVisitor")
+}
+
+model VehicleType {
+  id             String       @id @default(cuid())
+  name           String
+  status         Boolean?     @default(true)
+  organizationId String
+  created_at     DateTime?    @default(now())
+  updated_at     DateTime?    @updatedAt
+  Vehicle        Vehicle[]
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+  Question       Question[]   @relation("QuestionToVehicleType")
+}
+
+model Visitor {
+  id               String            @id @default(cuid())
+  subject          String?
+  badge            String?
+  visitorTypeId    String?
+  organizationId   String
+  created_at       DateTime?         @default(now())
+  updated_at       DateTime?         @updatedAt
+  personId         String?
+  companyId        String?
+  isExit           Boolean?          @default(false)
+  Company          Company?          @relation(fields: [companyId], references: [id])
+  Organization     Organization      @relation(fields: [organizationId], references: [id])
+  Person           Person?           @relation(fields: [personId], references: [id])
+  VisitorType      VisitorType?      @relation(fields: [visitorTypeId], references: [id])
+  Files            File[]            @relation("FileToVisitor")
+  Incident         Incident[]        @relation("IncidentToVisitor")
+  QrVisitor        QrVisitor[]       @relation("QrVisitorToVisitor")
+  VisitorEntrances VisitorEntrance[] @relation("VisitorToVisitorEntrance")
+  VisitorExit      VisitorExit[]     @relation("VisitorToVisitorExit")
+}
+
+model ExitUnits {
+  id                  String         @id @default(cuid())
+  dateTime            DateTime       @default(now())
+  dateTime_updated_at DateTime       @updatedAt
+  driverId            String?
+  vehicleId           String?
+  entranceUnitId      String?
+  organizationId      String
+  locationId          String
+  Checklist           Checklist[]
+  userId              String?
+  User                User?          @relation(fields: [userId], references: [id])
+  Driver              Driver?        @relation(fields: [driverId], references: [id])
+  EntranceUnits       EntranceUnits? @relation(fields: [entranceUnitId], references: [id])
+  Location            Location       @relation(fields: [locationId], references: [id])
+  Organization        Organization   @relation(fields: [organizationId], references: [id])
+  Vehicle             Vehicle?       @relation(fields: [vehicleId], references: [id])
+  Trailer             Trailer[]      @relation("ExitUnitsToTrailer")
+}
+
+model VisitorType {
+  id             String       @id @default(cuid())
+  name           String
+  description    String?
+  organizationId String
+  created_at     DateTime?    @default(now())
+  updated_at     DateTime?    @updatedAt
+  status         Boolean      @default(true)
+  Visitor        Visitor[]
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model VisitorEntrance {
+  id                  String          @id @default(cuid())
+  dateTime_updated_at DateTime        @updatedAt
+  dateTime            DateTime        @default(now())
+  vehicleVisitorId    String?
+  organizationId      String
+  locationId          String
+  Location            Location        @relation(fields: [locationId], references: [id])
+  Organization        Organization    @relation(fields: [organizationId], references: [id])
+  VehicleVisitor      VehicleVisitor? @relation(fields: [vehicleVisitorId], references: [id])
+  VisitorExit         VisitorExit[]
+  Visitors            Visitor[]       @relation("VisitorToVisitorEntrance")
+}
+
+model VisitorExit {
+  id                  String           @id @default(cuid())
+  dateTime_updated_at DateTime         @updatedAt
+  dateTime            DateTime         @default(now())
+  idEntrance          String?
+  idVehicleVisitor    String?
+  organizationId      String
+  locationId          String
+  VisitorEntrance     VisitorEntrance? @relation(fields: [idEntrance], references: [id])
+  VehicleVisitor      VehicleVisitor?  @relation(fields: [idVehicleVisitor], references: [id])
+  Location            Location         @relation(fields: [locationId], references: [id])
+  Organization        Organization     @relation(fields: [organizationId], references: [id])
+  Visitors            Visitor[]        @relation("VisitorToVisitorExit")
+}
+
+model File {
+  id                  String       @id @default(cuid())
+  dateTime            DateTime     @default(now())
+  dateTime_updated_at DateTime     @updatedAt
+  name                String
+  size                Int          @default(0)
+  type                String?
+  url                 String
+  checklistId         String?
+  driverId            String?
+  responseId          String?
+  organizationId      String
+  personId            String?
+  companyId           String?
+  incidentId          String?
+  Checklist           Checklist?   @relation(fields: [checklistId], references: [id])
+  Company             Company?     @relation(fields: [companyId], references: [id])
+  Driver              Driver?      @relation(fields: [driverId], references: [id])
+  Incident            Incident?    @relation(fields: [incidentId], references: [id])
+  Organization        Organization @relation(fields: [organizationId], references: [id])
+  Person              Person?      @relation(fields: [personId], references: [id])
+  Response            Response?    @relation(fields: [responseId], references: [id])
+  User                User[]
+  Visitors            Visitor[]    @relation("FileToVisitor")
+}
+
+model Location {
+  id                  String            @id @default(cuid())
+  name                String
+  capacity            Int?
+  dateTime            DateTime          @default(now())
+  dateTime_updated_at DateTime          @updatedAt
+  status              Boolean           @default(true)
+  organizationId      String
+  EntranceUnits       EntranceUnits[]
+  ExitUnits           ExitUnits[]
+  Incident            Incident[]
+  Organization        Organization      @relation(fields: [organizationId], references: [id])
+  Trailer             Trailer[]
+  Vehicle             Vehicle[]
+  VisitorEntrance     VisitorEntrance[]
+  VisitorExit         VisitorExit[]
+}
+
+model Companies {
+  id                  String       @id @default(cuid())
+  name                String
+  location            String?
+  dateTime            DateTime     @default(now())
+  dateTime_updated_at DateTime     @updatedAt
+  status              Boolean      @default(true)
+  organizationId      String
+  Organization        Organization @relation(fields: [organizationId], references: [id])
+}
+
+model QrVisitor {
+  id                  String          @id
+  dateTime            DateTime        @default(now())
+  dateTime_updated_at DateTime        @updatedAt
+  start               String
+  end                 String
+  numVisitors         Int
+  vehicleId           String?
+  email               String
+  subject             String
+  badge               String?
+  organizationId      String
+  companyId           String?
+  Company             Company?        @relation(fields: [companyId], references: [id])
+  Organization        Organization    @relation(fields: [organizationId], references: [id])
+  VehicleVisitor      VehicleVisitor? @relation(fields: [vehicleId], references: [id])
+  Visitor             Visitor[]       @relation("QrVisitorToVisitor")
+}
+
+model Role {
+  id         String   @id @default(cuid())
+  created_at DateTime @default(now())
+  update_at  DateTime @updatedAt
+  name       String
+  User       User[]
+}
+
+model Checklist {
+  id                String         @id @default(cuid())
+  datetime          DateTime       @default(now())
+  dtetime_update_at DateTime       @updatedAt
+  entraceUnitId     String?
+  exitUnitId        String?
+  vehicleId         String?
+  trailerId         String?
+  isSign            Boolean
+  identification    String?
+  organizationId    String
+  EntraceUnit       EntranceUnits? @relation(fields: [entraceUnitId], references: [id])
+  ExitUnit          ExitUnits?     @relation(fields: [exitUnitId], references: [id])
+  Organization      Organization   @relation(fields: [organizationId], references: [id])
+  Trailer           Trailer?       @relation(fields: [trailerId], references: [id])
+  Vehicle           Vehicle?       @relation(fields: [vehicleId], references: [id])
+  File              File[]
+  Responses         Response[]
+}
+
+model Response {
+  id                String       @id @default(cuid())
+  datetime          DateTime     @default(now())
+  dtetime_update_at DateTime     @updatedAt
+  checklistId       String
+  questionId        String
+  response          String
+  identification    String
+  organizationId    String
+  File              File[]
+  Checklist         Checklist    @relation(fields: [checklistId], references: [id])
+  Organization      Organization @relation(fields: [organizationId], references: [id])
+  Question          Question     @relation(fields: [questionId], references: [id])
+}
+
+model Organization {
+  id              String            @id @default(cuid())
+  name            String            @unique
+  created_at      DateTime          @default(now())
+  update_at       DateTime          @updatedAt
+  Checklist       Checklist[]
+  Companies       Companies[]
+  Company         Company[]
+  Driver          Driver[]
+  EntranceUnits   EntranceUnits[]
+  ExitUnits       ExitUnits[]
+  File            File[]
+  Incident        Incident[]
+  Locations       Location[]
+  Person          Person[]
+  QrVisitor       QrVisitor[]
+  Question        Question[]
+  Response        Response[]
+  Trailer         Trailer[]
+  TrailerType     TrailerType[]
+  User            User[]
+  Vehicle         Vehicle[]
+  VehicleType     VehicleType[]
+  VehicleVisitor  VehicleVisitor[]
+  Visitor         Visitor[]
+  VisitorEntrance VisitorEntrance[]
+  VisitorExit     VisitorExit[]
+  VisitorType     VisitorType[]
+}
+
+model TrailerLoad {
+  id           String         @id @default(cuid())
+  trailerId    String?
+  entranceId   String?
+  cargo        String
+  EntranceUnit EntranceUnits? @relation(fields: [entranceId], references: [id])
+  Trialer      Trailer?       @relation(fields: [trailerId], references: [id])
+}

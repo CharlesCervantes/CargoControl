@@ -1,0 +1,150 @@
+.container {
+    flex-grow: 1;
+    min-height: 100%;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.msform {
+    width: 60%;
+    padding: 1rem;
+    margin: 10px auto;
+    text-align: center;
+    position: relative;
+    overflow-y: scroll;
+}
+
+.msform fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 3px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    width: 80%;
+    margin: 0 10%;
+
+    /*stacking fieldsets above each other*/
+    position: relative;
+}
+
+.msform fieldset:not(:first-of-type) {
+    display: none;
+}
+
+.placeHolder {
+    display: flex;
+    border: none;
+    font-size: 13px;
+    justify-content: center;
+    color: '#2C3E50';
+}
+
+.msform select,
+.msform input,
+.msform textarea {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+}
+
+.calendarPicker {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #2C3E50;
+    font-size: 13px;
+}
+
+.msform .action-button {
+    width: 100px;
+    background: #2193b0;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.fs-title {
+    font-size: 15px;
+    text-transform: uppercase;
+    color: #2C3E50;
+    margin-bottom: 10px;
+}
+
+.fs-subtitle {
+    font-weight: normal;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.progressbar {
+    display: flex;
+    margin-bottom: 30px;
+    overflow: hidden;
+    counter-reset: step;
+}
+
+.progressbar li {
+    list-style-type: none;
+    color: black;
+    text-transform: uppercase;
+    font-size: 11px;
+    width: 33.33%;
+    float: left;
+    position: relative;
+}
+
+.progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 30px;
+    line-height: 30px;
+    display: block;
+    font-size: 10px;
+    color: #333;
+    background: white;
+    border-radius: 3px;
+    margin: 0 auto 5px auto;
+}
+
+.progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    left: -50%;
+    top: 9px;
+    z-index: -1;
+    /*put it behind the numbers*/
+}
+
+.progressbar li.active:before,
+.progressbar li.active:after {
+    background: #2193b0;
+    color: white;
+}
+
+@media only screen and (max-width: 800px) {
+    .msform {
+        width: 90% !important;
+    }
+}

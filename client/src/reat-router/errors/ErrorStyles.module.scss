@@ -1,0 +1,21 @@
+.errorContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        width: 20%;
+        margin-bottom: 2rem;
+    }
+
+    .title {
+        font-size: 5rem;
+    }
+
+    .subtitle {
+        font-size: 2rem;
+    }
+}

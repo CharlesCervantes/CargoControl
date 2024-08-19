@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+.containerL {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+}
+
+.bottom-up-panel {
+    flex-direction: column-reverse;
+}
+
+.form-containerL {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in-containerL {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.containerL.right-panel-active .sign-in-containerL {
+    transform: translateX(100%);
+}
+
+.sign-up-containerL {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.containerL.right-panel-active .sign-up-containerL {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+}
+
+.overlayL-containerL {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+}
+
+.containerL.right-panel-active .overlayL-containerL {
+    transform: translateX(-100%);
+}
+
+.overlayL {
+    background: #2193b0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #FFFFFF;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.overlayLDemo {
+    background: #7d7ec4;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #FFFFFF;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.containerL.right-panel-active .overlayL {
+    transform: translateX(50%);
+}
+
+.containerL.right-panel-active .overlayLDemo {
+    transform: translateX(50%);
+}
+
+.overlayL-panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.overlayL-left {
+    transform: translateX(-20%);
+}
+
+.containerL.right-panel-active .overlayL-left {
+    transform: translateX(0);
+}
+
+.overlayL-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.containerL.right-panel-active .overlayL-right {
+    transform: translateX(20%);
+}
+
+@media only screen and (max-width: 420px) {
+
+
+    .overlayL-panel {
+        padding: 0 10px !important;
+        display: none;
+    }
+
+    .overlayL-containerL {
+        display: none;
+    }
+
+    .sign-in-containerL {
+        width: 100%;
+    }
+}
+
+.containerL.right-panel-active .overlayL-right {
+    transform: translateX(20%);
+}
+
+@media only screen and (max-width: 420px) {
+
+
+    .overlayL-panel {
+        padding: 0 10px !important;
+        display: none;
+    }
+
+    .overlayL-containerL {
+        display: none;
+    }
+
+    .sign-in-containerL {
+        width: 100%;
+    }
+
+    .containerL {
+        width: 80%;
+    }
+
+    .sign-up-containerL {
+        width: 100%;
+        transform: translateX(0%) !important;
+        animation: show 0.6s !important;
+    }
+
+}
+
+@media only screen and ((min-width: 421px) and (max-width: 850px)) {
+
+
+    .overlayL-panel {
+        padding: 0 10px !important;
+        display: none;
+    }
+
+    .overlayL-containerL {
+        display: none;
+    }
+
+    .sign-in-containerL {
+        width: 100%;
+    }
+
+    .containerL {
+        width: 65%;
+    }
+
+    .sign-up-containerL {
+        width: 100%;
+        transform: translateX(0%) !important;
+        animation: show 0.6s !important;
+    }
+
+}

@@ -1,0 +1,14 @@
+.PDFbutton{
+    background-color: #d00000;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #f8f9fa;
+    font-weight: bold;
+    width: 4rem;
+    text-align: center;
+    &:hover{
+        background-color: #9d0208;
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,14 @@
+.buttonContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+
+    .button{
+        width: 8rem;
+    }
+}
+
+.pencilIcon{
+    cursor: pointer;
+}

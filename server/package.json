@@ -1,0 +1,57 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "scripts": {
+    "postinstall": "npm run prisma:generate",
+    "lint": "eslint ./src --fix",
+    "build": "tsc",
+    "start": "node -r tsconfig-paths/register dist/src/main.js",
+    "dev": "node-dev -r tsconfig-paths/register src/main.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:pull": "prisma db pull",
+    "prisma:studio": "prisma studio"
+  },
+  "prisma": {
+    "schema": "./src/prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.414.0",
+    "@aws-sdk/s3-request-presigner": "^3.414.0",
+    "@paralleldrive/cuid2": "^2.2.0",
+    "@prisma/client": "^5.2.0",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "express-form-data": "^2.0.22",
+    "jsonwebtoken": "^9.0.1",
+    "multer": "1.4.5-lts.1",
+    "nodemailer": "^6.9.4",
+    "pg": "^8.11.5",
+    "selfsigned": "^2.4.1",
+    "sharp": "^0.32.1",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@hannoeru/eslint-config": "^0.9.4",
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/express-fileupload": "^1.4.1",
+    "@types/express-form-data": "^2.0.2",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/morgan": "^1.9.4",
+    "@types/multer": "^1.4.7",
+    "@types/node": "^18.15.3",
+    "@types/nodemailer": "^6.4.9",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.36.0",
+    "morgan": "^1.10.0",
+    "node-dev": "^8.0.0",
+    "prisma": "^5.2.0",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.2",
+    "typescript": "^4.9.5"
+  }
+}
